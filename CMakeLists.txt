@@ -12,7 +12,7 @@ FetchContent_Declare(SFML
     SYSTEM)
 FetchContent_MakeAvailable(SFML)
 
-add_executable(${PROJECT_NAME} src/main.cpp src/Wave.cpp)
-target_link_libraries(${PROJECT_NAME} PRIVATE SFML::Graphics)
+add_executable(${PROJECT_NAME} src/main.cpp src/TickCounter.cpp)
+target_link_libraries(${PROJECT_NAME} PRIVATE SFML::Graphics atomic)
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_23)
 
