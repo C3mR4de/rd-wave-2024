@@ -15,7 +15,7 @@ namespace rd
         Wave& operator=(sf::Texture&& texture) = delete;     
         ~Wave() noexcept = default;
 
-        Wave& update();        
+        Wave& update();
 
     private:
 
