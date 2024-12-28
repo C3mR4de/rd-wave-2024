@@ -21,3 +21,4 @@ std::size_t rd::TickCounter::getTps() noexcept
 {
     return ticks_per_second;
 }
+

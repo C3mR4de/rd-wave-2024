@@ -9,8 +9,8 @@
 
 void render(sf::RenderWindow& window, std::atomic<rd::TickCounter>& tps_counter)
 {
-    const bool active = window.setActive();    
-    
+    const bool active = window.setActive();
+
     rd::TickCounter fps_counter;
 
     sf::Font font("/usr/share/fonts/TTF/UbuntuMonoNerdFont-Regular.ttf");
@@ -50,3 +50,4 @@ int main()
         tps_counter.store(tps_counter.load().update());
     }
 }
+

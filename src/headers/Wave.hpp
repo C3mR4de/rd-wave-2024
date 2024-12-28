@@ -12,7 +12,7 @@ namespace rd
         Wave(const sf::Texture& texture);
         Wave(sf::Texture&& texture) = delete;
         Wave& operator=(const sf::Texture& texture);
-        Wave& operator=(sf::Texture&& texture) = delete;     
+        Wave& operator=(sf::Texture&& texture) = delete; 
         ~Wave() noexcept = default;
 
         Wave& update();
