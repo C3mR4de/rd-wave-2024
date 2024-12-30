@@ -10,7 +10,7 @@
 #include "headers/TickCounter.hpp"
 #include "headers/Wave.hpp"
 
-constexpr std::size_t trail_length = 40000;
+constexpr std::size_t trail_length = 1500;
 using Wave = rd::Wave<trail_length>;
 
 void render(sf::RenderWindow& window, std::atomic<rd::TickCounter>& tps_counter, std::atomic<Wave::State>& wave_state)
@@ -64,15 +64,18 @@ int main()
     std::atomic<Wave::State> wave_state(Wave::State{{0, x}, {1000, 0}, Wave::State::Gravity::Normal, sf::degrees(45.f), 25.f});
     std::jthread rendering_thread(&render, std::ref(window), std::ref(tps_counter), std::ref(wave_state));
 
-    sf::Clock frame_clock;
+    sf::Clock tick_clock;
 
     while (window.isOpen())
     {
-        float dt = frame_clock.restart().asSeconds();
+        float dt = tick_clock.restart().asSeconds();
         window.handleEvents(on_close);
 
         tps_counter.store(tps_counter.load().update());
         wave_state.store(wave_state.load().update(dt, sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space)));
+
+        constexpr std::size_t tps_lock = 1000;
+        while (tick_clock.getElapsedTime().asSeconds() < 1.f / tps_lock);
     }
 }
 
