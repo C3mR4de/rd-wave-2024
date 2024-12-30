@@ -23,8 +23,8 @@ namespace rd
         {
             enum Gravity: short int
             {
-                Reversed = -1,
-                Normal = 1
+                Reversed = 1,
+                Normal = -1
             };
 
             sf::Vector2f position;
@@ -52,7 +52,7 @@ namespace rd
 template <std::size_t trail_length>
 rd::Wave<trail_length>::State& rd::Wave<trail_length>::State::update(float dt, bool is_key_pressed)
 {
-    angle = sf::degrees(45.f * static_cast<float>(gravity) * (is_key_pressed ? 1.f : -1.f));
+    angle = sf::degrees(std::abs(angle.asDegrees()) * static_cast<float>(gravity) * (is_key_pressed ? 1.f : -1.f));
     speed.y = speed.x * std::tan(angle.asRadians());
     position += speed * dt;
 

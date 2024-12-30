@@ -66,7 +66,7 @@ int main()
 
     std::atomic<rd::TickCounter> tps_counter;
     const auto x = window.getDefaultView().getCenter().x;
-    std::atomic<Wave::State> wave_state(Wave::State{{0, x}, {1000, 0}, Wave::State::Gravity::Normal, sf::degrees(45.f), 25.f});
+    std::atomic<Wave::State> wave_state(Wave::State{{0, x}, {1000, 0}, Wave::State::Gravity::Normal, sf::radians(std::atan(1)), 25.f});
     std::jthread rendering_thread(&render, std::ref(window), std::ref(tps_counter), std::ref(wave_state));
 
     sf::Clock tick_clock;
@@ -79,8 +79,9 @@ int main()
         tps_counter.store(tps_counter.load().update());
         wave_state.store(wave_state.load().update(dt, sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space)));
 
-        constexpr std::size_t tps_lock = 1000;
-        while (tick_clock.getElapsedTime().asSeconds() < 1.f / tps_lock);
+        constexpr std::size_t tps_lock = 360;
+        constexpr float tick_duration = 1.f / tps_lock;
+        while (tick_clock.getElapsedTime().asSeconds() < tick_duration);
     }
 }
 
