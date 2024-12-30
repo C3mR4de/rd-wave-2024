@@ -4,7 +4,6 @@
 #include <cstddef>
 #include <cmath>
 #include <array>
-#include <atomic>
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
