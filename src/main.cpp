@@ -30,7 +30,7 @@ void render(sf::RenderWindow& window, std::atomic<rd::TickCounter>& tps_counter,
 
     sf::View view(window.getDefaultView());
 
-    window.setFramerateLimit(5);
+    window.setFramerateLimit(1);
 
     while (window.isOpen())
     {
@@ -60,8 +60,8 @@ int main()
     };
 
     std::atomic<rd::TickCounter> tps_counter;
-    const auto [x, y] = window.getDefaultView().getCenter();
-    std::atomic<Wave::State> wave_state(Wave::State{{0, x}, {1000, 0}, Wave::State::Gravity::Normal, sf::degrees(45.f), 30.f});
+    const auto x = window.getDefaultView().getCenter().x;
+    std::atomic<Wave::State> wave_state(Wave::State{{0, x}, {1000, 0}, Wave::State::Gravity::Normal, sf::degrees(45.f), 25.f});
     std::jthread rendering_thread(&render, std::ref(window), std::ref(tps_counter), std::ref(wave_state));
 
     sf::Clock frame_clock;
@@ -73,9 +73,6 @@ int main()
 
         tps_counter.store(tps_counter.load().update());
         wave_state.store(wave_state.load().update(dt, sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space)));
-
-        // using namespace std::chrono_literals;
-        // std::this_thread::sleep_for(2ms);
     }
 }
 
