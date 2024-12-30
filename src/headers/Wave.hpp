@@ -83,7 +83,7 @@ rd::Wave<trail_length>::Entity& rd::Wave<trail_length>::Entity::update(const Sta
     
     for (std::size_t i = 0; i < trail_length; ++i)
     {
-        trail[i] = {state.trail[i], sf::Color::White};
+        trail[i] = {state.trail[i], sf::Color::Green};
     }
 
     return *this;
