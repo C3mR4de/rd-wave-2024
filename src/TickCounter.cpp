@@ -10,7 +10,7 @@ rd::TickCounter& rd::TickCounter::update()
     else [[unlikely]]
     {
         ticks_per_second = current_ticks_count;
-        current_ticks_count = 0;
+        current_ticks_count = 1;
         clock.restart();
     }
 
