@@ -30,10 +30,12 @@ void render(sf::RenderWindow& window, std::atomic<rd::TickCounter>& tps_counter,
 
     sf::View view(window.getDefaultView());
 
-    window.setFramerateLimit(1);
+    sf::Clock frame_clock;
 
     while (window.isOpen())
     {
+        frame_clock.restart();
+
         wave_entity.update(wave_state.load());
         view.setCenter({wave_entity.sprite.getPosition().x + 200.f, view.getCenter().y});
         window.setView(view);
@@ -46,6 +48,9 @@ void render(sf::RenderWindow& window, std::atomic<rd::TickCounter>& tps_counter,
         window.draw(wave_entity);
         window.draw(debug_info);
         window.display();
+
+        constexpr std::size_t fps_lock = 144;
+        while (frame_clock.getElapsedTime().asSeconds() <= 1.f / fps_lock);
     }
 }
 
