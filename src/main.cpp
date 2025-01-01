@@ -71,14 +71,18 @@ int main()
     std::jthread rendering_thread(&render, std::ref(window), std::ref(tps_counter), std::ref(wave_state));
 
     sf::Clock tick_clock;
+    bool was_key_pressed = false;
+    bool is_key_pressed = false;
 
     while (window.isOpen())
     {
         const float dt = tick_clock.restart().asSeconds();
         window.handleEvents(on_close);
-
         tps_counter.store(tps_counter.load().update());
-        wave_state.store(wave_state.load().update(dt, sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space)));
+
+        is_key_pressed = sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space);
+        wave_state.store(wave_state.load().update(dt, is_key_pressed));
+        was_key_pressed = is_key_pressed;
 
         constexpr std::size_t tps_lock = 360;
         constexpr float tick_duration = 1.f / tps_lock;
