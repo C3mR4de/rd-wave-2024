@@ -44,7 +44,7 @@ namespace rd
             void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
             sf::Sprite sprite;
-            sf::VertexArray trail = sf::VertexArray(sf::PrimitiveType::TriangleStrip, trail_length);
+            sf::VertexArray trail = sf::VertexArray(sf::PrimitiveType::TriangleStrip, trail_length * 2);
         };
     };
 }
@@ -56,13 +56,12 @@ rd::Wave<trail_length>::State& rd::Wave<trail_length>::State::update(float dt, b
     speed.y = speed.x * std::tan(angle.asRadians());
     position += speed * dt;
 
-    for (std::size_t i = trail_length - 1; i > 1; --i)
+    for (std::size_t i = trail_length - 1; i > 0; --i)
     {
-        trail[i] = trail[i - 2];
+        trail[i] = trail[i - 1];
     }
 
-    trail[0] = {position.x, position.y - thickness / 2.f};
-    trail[1] = {position.x, position.y + thickness / 2.f};
+    trail[0] = position;
 
     return *this;
 }
@@ -82,7 +81,9 @@ rd::Wave<trail_length>::Entity& rd::Wave<trail_length>::Entity::update(const Sta
     
     for (std::size_t i = 0; i < trail_length; ++i)
     {
-        trail[i] = {state.trail[i], sf::Color::Green};
+        const auto [x, y] = state.trail[i];
+        trail[2 * i] = {{x, y - state.thickness / 2.f}, sf::Color::Green};
+        trail[2 * i + 1] = {{x, y + state.thickness + 2.f}, sf::Color::Green};
     }
 
     return *this;
