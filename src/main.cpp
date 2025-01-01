@@ -19,7 +19,7 @@ void render(sf::RenderWindow& window, std::atomic<rd::TickCounter>& tps_counter,
 
     rd::TickCounter fps_counter;
 
-    const sf::Font font("/usr/share/fonts/TTF/UbuntuMonoNerdFont-Regular.ttf");
+    const sf::Font font("UbuntuMonoNerdFont-Regular.ttf");
     sf::Text debug_info(font);
 
     const sf::String fps_string = "FPS: ";
