@@ -34,7 +34,7 @@ namespace rd
             float thickness;
             std::array<sf::Vector2f, trail_length> trail;
 
-            State& update(float dt, bool is_key_pressed);
+            State& update(float dt, bool is_key_pressed, bool was_key_pressed);
         };
 
         struct Entity: public sf::Drawable
@@ -50,15 +50,18 @@ namespace rd
 }
 
 template <std::size_t trail_length>
-rd::Wave<trail_length>::State& rd::Wave<trail_length>::State::update(float dt, bool is_key_pressed)
+rd::Wave<trail_length>::State& rd::Wave<trail_length>::State::update(float dt, bool is_key_pressed, bool was_key_pressed)
 {
     angle = sf::degrees(std::abs(angle.asDegrees()) * static_cast<float>(gravity) * (is_key_pressed ? 1.f : -1.f));
     speed.y = speed.x * std::tan(angle.asRadians());
     position += speed * dt;
 
-    for (std::size_t i = trail_length - 1; i > 0; --i)
+    if (is_key_pressed != was_key_pressed) [[unlikely]]
     {
-        trail[i] = trail[i - 1];
+        for (std::size_t i = trail_length - 1; i > 0; --i)
+        {
+            trail[i] = trail[i - 1];
+        }
     }
 
     trail[0] = position;

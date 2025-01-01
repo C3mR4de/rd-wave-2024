@@ -10,7 +10,7 @@
 #include "headers/TickCounter.hpp"
 #include "headers/Wave.hpp"
 
-constexpr std::size_t trail_length = 1500;
+constexpr std::size_t trail_length = 20;
 using Wave = rd::Wave<trail_length>;
 
 void render(sf::RenderWindow& window, std::atomic<rd::TickCounter>& tps_counter, std::atomic<Wave::State>& wave_state)
@@ -81,7 +81,7 @@ int main()
         tps_counter.store(tps_counter.load().update());
 
         is_key_pressed = sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space);
-        wave_state.store(wave_state.load().update(dt, is_key_pressed));
+        wave_state.store(wave_state.load().update(dt, is_key_pressed, was_key_pressed));
         was_key_pressed = is_key_pressed;
 
         constexpr std::size_t tps_lock = 360;
