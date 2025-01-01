@@ -19,11 +19,11 @@ void render(sf::RenderWindow& window, std::atomic<rd::TickCounter>& tps_counter,
 
     rd::TickCounter fps_counter;
 
-    sf::Font font("/usr/share/fonts/TTF/UbuntuMonoNerdFont-Regular.ttf");
+    const sf::Font font("/usr/share/fonts/TTF/UbuntuMonoNerdFont-Regular.ttf");
     sf::Text debug_info(font);
 
-    sf::String fps_string = "FPS: ";
-    sf::String tps_string = "TPS: ";
+    const sf::String fps_string = "FPS: ";
+    const sf::String tps_string = "TPS: ";
 
     sf::Texture texture("wave_head.png");
     Wave::Entity wave_entity(texture);
@@ -50,7 +50,8 @@ void render(sf::RenderWindow& window, std::atomic<rd::TickCounter>& tps_counter,
         window.display();
 
         constexpr std::size_t fps_lock = 144;
-        while (frame_clock.getElapsedTime().asSeconds() <= 1.f / fps_lock);
+        constexpr float frame_duration = 1.f / fps_lock;
+        while (frame_clock.getElapsedTime().asSeconds() < frame_duration);
     }
 }
 
@@ -73,7 +74,7 @@ int main()
 
     while (window.isOpen())
     {
-        float dt = tick_clock.restart().asSeconds();
+        const float dt = tick_clock.restart().asSeconds();
         window.handleEvents(on_close);
 
         tps_counter.store(tps_counter.load().update());
