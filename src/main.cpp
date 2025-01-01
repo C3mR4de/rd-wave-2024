@@ -19,13 +19,13 @@ void render(sf::RenderWindow& window, std::atomic<rd::TickCounter>& tps_counter,
 
     rd::TickCounter fps_counter;
 
-    const sf::Font font("UbuntuMonoNerdFont-Regular.ttf");
+    const sf::Font font("resources/UbuntuMonoNerdFont-Regular.ttf");
     sf::Text debug_info(font);
 
     const sf::String fps_string = "FPS: ";
     const sf::String tps_string = "TPS: ";
 
-    sf::Texture texture("wave_head.png");
+    sf::Texture texture("resources/wave_head.png");
     Wave::Entity wave_entity(texture);
 
     sf::View view(window.getDefaultView());
